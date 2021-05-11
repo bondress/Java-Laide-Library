@@ -36,18 +36,19 @@ public class UserDashboard extends javax.swing.JFrame {
      */
     public UserDashboard(String username) {
         initComponents();
+        
         //Centralise the User Dashboard
         this.setLocationRelativeTo(null);
 
         //Stop the Window Exit Button from closing the application
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        //Hide Issue Details
-        lblIssueDetails.setVisible(false);
-        lblIssueDate1.setVisible(false);
+        //Hide Loan Details
+        lblLoanDetails.setVisible(false);
+        lblLoanDate1.setVisible(false);
         lblPeriod1.setVisible(false);
         lblExpectedReturnDate1.setVisible(false);
-        lblIssueDate2.setVisible(false);
+        lblLoanDate2.setVisible(false);
         lblPeriod2.setVisible(false);
         lblExpectedReturnDate2.setVisible(false);
 
@@ -84,15 +85,15 @@ public class UserDashboard extends javax.swing.JFrame {
         tbAvailableBooks = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
         pnlLendForm = new javax.swing.JPanel();
-        lblIssueDetails = new javax.swing.JLabel();
+        lblLoanDetails = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnLoan = new javax.swing.JButton();
-        lblIssueDate1 = new javax.swing.JLabel();
+        lblLoanDate1 = new javax.swing.JLabel();
         lblPeriod1 = new javax.swing.JLabel();
         lblExpectedReturnDate1 = new javax.swing.JLabel();
         lblLoanABook = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
-        lblIssueDate2 = new javax.swing.JLabel();
+        lblLoanDate2 = new javax.swing.JLabel();
         lblPeriod2 = new javax.swing.JLabel();
         lblExpectedReturnDate2 = new javax.swing.JLabel();
         spnBookID = new javax.swing.JSpinner();
@@ -161,10 +162,10 @@ public class UserDashboard extends javax.swing.JFrame {
 
         pnlLendForm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        lblIssueDetails.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
-        lblIssueDetails.setForeground(new java.awt.Color(56, 72, 96));
-        lblIssueDetails.setText("Issue Details");
-        lblIssueDetails.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lblLoanDetails.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
+        lblLoanDetails.setForeground(new java.awt.Color(56, 72, 96));
+        lblLoanDetails.setText("Loan Details");
+        lblLoanDetails.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel2.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(56, 72, 96));
@@ -181,9 +182,9 @@ public class UserDashboard extends javax.swing.JFrame {
             }
         });
 
-        lblIssueDate1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
-        lblIssueDate1.setForeground(new java.awt.Color(56, 72, 96));
-        lblIssueDate1.setText("Issue Date:");
+        lblLoanDate1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        lblLoanDate1.setForeground(new java.awt.Color(56, 72, 96));
+        lblLoanDate1.setText("Loan Date:");
 
         lblPeriod1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
         lblPeriod1.setForeground(new java.awt.Color(56, 72, 96));
@@ -209,9 +210,9 @@ public class UserDashboard extends javax.swing.JFrame {
             }
         });
 
-        lblIssueDate2.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
-        lblIssueDate2.setForeground(new java.awt.Color(56, 72, 96));
-        lblIssueDate2.setPreferredSize(new java.awt.Dimension(69, 18));
+        lblLoanDate2.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        lblLoanDate2.setForeground(new java.awt.Color(56, 72, 96));
+        lblLoanDate2.setPreferredSize(new java.awt.Dimension(69, 18));
 
         lblPeriod2.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
         lblPeriod2.setForeground(new java.awt.Color(56, 72, 96));
@@ -226,61 +227,57 @@ public class UserDashboard extends javax.swing.JFrame {
         pnlLendFormLayout.setHorizontalGroup(
             pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLendFormLayout.createSequentialGroup()
+                .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlLendFormLayout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLendFormLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLoanDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnLoan, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlLendFormLayout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(spnBookID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblLoanABook))))))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLendFormLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pnlLendFormLayout.createSequentialGroup()
-                            .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(pnlLendFormLayout.createSequentialGroup()
-                                    .addComponent(lblPeriod1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblPeriod2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(pnlLendFormLayout.createSequentialGroup()
-                                    .addComponent(lblExpectedReturnDate1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblExpectedReturnDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(pnlLendFormLayout.createSequentialGroup()
-                                    .addComponent(lblIssueDate1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblIssueDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLendFormLayout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLendFormLayout.createSequentialGroup()
-                                    .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(pnlLendFormLayout.createSequentialGroup()
-                                            .addComponent(jLabel2)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(spnBookID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(btnLoan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(63, 63, 63))
-                                .addGroup(pnlLendFormLayout.createSequentialGroup()
-                                    .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblIssueDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblLoanABook))
-                                    .addContainerGap()))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLendFormLayout.createSequentialGroup()
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))))
+                    .addGroup(pnlLendFormLayout.createSequentialGroup()
+                        .addComponent(lblPeriod1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPeriod2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLendFormLayout.createSequentialGroup()
+                        .addComponent(lblLoanDate1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblLoanDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLendFormLayout.createSequentialGroup()
+                        .addComponent(lblExpectedReturnDate1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblExpectedReturnDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22))
         );
         pnlLendFormLayout.setVerticalGroup(
             pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLendFormLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(lblLoanABook)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(spnBookID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLoan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblIssueDetails)
+                .addComponent(lblLoanDetails)
                 .addGap(18, 18, 18)
                 .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblIssueDate1)
-                    .addComponent(lblIssueDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblLoanDate1)
+                    .addComponent(lblLoanDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPeriod1)
@@ -327,7 +324,7 @@ public class UserDashboard extends javax.swing.JFrame {
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
+                .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
             .addComponent(jSeparator1)
             .addComponent(pnlLendForm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -371,7 +368,7 @@ public class UserDashboard extends javax.swing.JFrame {
                 .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblWelcome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlLowerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -391,8 +388,8 @@ public class UserDashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void displayIssueDetails(boolean insertStatus) {
-        // Create new SQLQueries object to insert new record in issue table
+    private void displayLoanDetails(boolean insertStatus) {
+        // Create new SQLQueries object to insert new record in Loans table
         SQLQueries queryObject = new SQLQueries();
 
         if (insertStatus == false) {
@@ -403,18 +400,18 @@ public class UserDashboard extends javax.swing.JFrame {
             // Disable Loan Book Button
             btnLoan.setEnabled(false);
 
-            // Display relevant issue details to the user
-            lblIssueDetails.setVisible(true);
-            lblIssueDate1.setVisible(true);
+            // Display relevant Loan details to the user
+            lblLoanDetails.setVisible(true);
+            lblLoanDate1.setVisible(true);
             lblPeriod1.setVisible(true);
             lblExpectedReturnDate1.setVisible(true);
             try {
-                ResultSet issueDetails = queryObject.getIssueDetails();
-                lblIssueDate2.setText(issueDetails.getString("IssueDate"));
-                lblPeriod2.setText(issueDetails.getString("IssuePeriod"));
-                lblExpectedReturnDate2.setText(issueDetails
+                ResultSet loanDetails = queryObject.getLoanDetails();
+                lblLoanDate2.setText(loanDetails.getString("LoanDate"));
+                lblPeriod2.setText(loanDetails.getString("LoanPeriod"));
+                lblExpectedReturnDate2.setText(loanDetails
                         .getString("ReturnDate"));
-                lblIssueDate2.setVisible(true);
+                lblLoanDate2.setVisible(true);
                 lblPeriod2.setVisible(true);
                 lblExpectedReturnDate2.setVisible(true);
 
@@ -429,7 +426,7 @@ public class UserDashboard extends javax.swing.JFrame {
             tbAvailableBooks.setModel(DbUtils.resultSetToTableModel(tableContents));
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Error Inserting Issue Details!",
+                    "Error Inserting Loan Details!",
                     "Oops! An error occured!",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -454,23 +451,23 @@ public class UserDashboard extends javax.swing.JFrame {
                 if (loanedBefore.equals("valid")) {
                     String returned = queryObject.validateUserLoan();
                     if (returned.equals("valid")) {
-                        // insert new record in issue table
-                        boolean insertStatus = queryObject.insertIssue();
-                        displayIssueDetails(insertStatus);
+                        // insert new record in loan table
+                        boolean insertStatus = queryObject.insertLoan();
+                        displayLoanDetails(insertStatus);
                     } else {
                         JOptionPane.showMessageDialog(this,
                                 "Please return previously loaned book! "
                                 + "Your request will not be granted\n "
-                                + "until you return the book you loaned"
-                                + ".\n Please see the Librarian for "
+                                + "until you return the book you loaned."
+                                + "\n Please see the Librarian for "
                                 + "more information.",
                                 "Error! You are owing us a book!",
                                 JOptionPane.ERROR_MESSAGE);
                         btnLoan.setEnabled(false);
                     }
                 } else {
-                    boolean insertStatus = queryObject.insertIssue();
-                    displayIssueDetails(insertStatus);
+                    boolean insertStatus = queryObject.insertLoan();
+                    displayLoanDetails(insertStatus);
                 }
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -549,10 +546,10 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblAvailableBooks;
     private javax.swing.JLabel lblExpectedReturnDate1;
     private javax.swing.JLabel lblExpectedReturnDate2;
-    private javax.swing.JLabel lblIssueDate1;
-    private javax.swing.JLabel lblIssueDate2;
-    private javax.swing.JLabel lblIssueDetails;
     private javax.swing.JLabel lblLoanABook;
+    private javax.swing.JLabel lblLoanDate1;
+    private javax.swing.JLabel lblLoanDate2;
+    private javax.swing.JLabel lblLoanDetails;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPeriod1;
     private javax.swing.JLabel lblPeriod2;

@@ -163,7 +163,7 @@
                   <Component id="lblFirstName10" min="-2" max="-2" attributes="0"/>
                   <Component id="txtReEnterPassword" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace pref="16" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnRegister" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="btnBack" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
@@ -373,6 +373,12 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="cbState">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Cambria" size="12" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="60" green="48" red="38" type="rgb"/>
+        </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="37">
             <StringItem index="0" value="Select"/>
@@ -415,6 +421,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbStateActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

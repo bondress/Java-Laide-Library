@@ -157,7 +157,14 @@ public class UserRegistration extends javax.swing.JFrame {
         rdFemale.setForeground(new java.awt.Color(56, 72, 96));
         rdFemale.setText("Female");
 
+        cbState.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
+        cbState.setForeground(new java.awt.Color(56, 72, 96));
         cbState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Federal Capital Territory", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara" }));
+        cbState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbStateActionPerformed(evt);
+            }
+        });
 
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,7 +354,7 @@ public class UserRegistration extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblFirstName10)
                     .addComponent(txtReEnterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -577,6 +584,10 @@ public class UserRegistration extends javax.swing.JFrame {
             txtReEnterPassword.setForeground(Color.red);
         }
     }//GEN-LAST:event_txtReEnterPasswordKeyReleased
+
+    private void cbStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbStateActionPerformed
 
     /**
      * @param args the command line arguments

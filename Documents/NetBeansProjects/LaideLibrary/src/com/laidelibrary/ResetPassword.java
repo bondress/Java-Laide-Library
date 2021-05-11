@@ -6,6 +6,8 @@
 package com.laidelibrary;
 
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -148,11 +150,33 @@ public class ResetPassword extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPasswordActionPerformed
+        
+        // pattern for valid password
+        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=."
+                + "*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
+        
+        Matcher passwordMatcher = 
+                passwordPattern.matcher(txtPassword.getText());
+        
         //Confirm that all fields are not left blank
         if (txtPassword.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Please enter your new Password!",
                 "Password Field is Blank!", JOptionPane.WARNING_MESSAGE);
+        }  else if (!passwordMatcher.matches()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enter a valid Password!\n"
+                            + "All passwords must: \n"
+                            + "<html><ul><li>Contain 8 characters, minimum "
+                            + " and 20 characters, maximum.</li>"
+                            + "<li>Contain at least one digit.</li>" 
+                            + "<li>Contain at least one upper case alphabet.</li>" 
+                            + "<li>Contain at least one lower case alphabet.</li>" 
+                            + "<li>Contain at least one special character "
+                            + "which includes !@#$%&*()-+=^.</li>" 
+                            + "<li>Not contain any white space.</li></ul></html>",
+                    "Invalid Password!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (txtReEnterPassword.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "Please re-enter your new Password!",

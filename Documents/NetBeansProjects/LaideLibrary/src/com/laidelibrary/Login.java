@@ -206,6 +206,12 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                 } else if (role.equals("administrator")) {
 
+                } else if (role.equals("invalid")) {
+                    JOptionPane.showMessageDialog(this,
+                            "Invalid User!Exiting...",
+                            "Invalid User!",
+                            JOptionPane.ERROR_MESSAGE);
+                    System.exit(0);
                 }
             } else {
                 JOptionPane.showMessageDialog(this,

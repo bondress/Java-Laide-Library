@@ -20,7 +20,7 @@ public class SQLQueries {
     static Connection connection = null;
     ResultSet resultSet = null;
     PreparedStatement preparedStatement = null;
-    static int userID, bookID, userIDForPasswordReset;
+    static int userID, bookID, userIDForPasswordReset, userRoleForUpdate;
     static String username;
 
     public SQLQueries() {
@@ -31,7 +31,7 @@ public class SQLQueries {
     public String validateUser(String username, String password) {
         //Store the username as a static variable for use in other methods
         SQLQueries.username = username;
-            
+
         //A string to confirm if the user is present in the database
         //"invalid" will be returned if the user does not exist in the database
         String userStatus = "invalid";
@@ -54,9 +54,9 @@ public class SQLQueries {
         }
         return userStatus;
     }
-    
+
     //Method to confirm existence of user in the database
-    public String validateUser(int userID) {         
+    public String validateUser(int userID) {
         //A string to confirm if the user is present in the database
         //"invalid" will be returned if the user does not exist in the database
         String userStatus = "invalid";
@@ -70,10 +70,76 @@ public class SQLQueries {
 
             //Return valid if the user exists
             if (resultSet.next()) {
+                SQLQueries.userRoleForUpdate = resultSet.getInt("RoleID");
                 userStatus = "valid";
             }
-        } catch (SQLException ex) {
-        }
+        } catch (SQLException ex) {}
+        return userStatus;
+    }
+    
+    //Method to confirm existence of user in the database (for delete user option)
+    public String validateUserRoleWithPhoneNumber(String phone) {
+        //A string to confirm if the user is present in the database
+        //"invalid" will be returned if the user does not exist in the database
+        String userStatus = "invalid";
+        try {
+            String sql = "SELECT * FROM Users WHERE PhoneNumber=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, phone);
+
+            //getting the result
+            resultSet = preparedStatement.executeQuery();
+
+            //Return valid if the user exists
+            if (resultSet.next()) {
+                SQLQueries.userRoleForUpdate = resultSet.getInt("RoleID");
+                userStatus = "valid";
+            }
+        } catch (SQLException ex) {}
+        return userStatus;
+    }
+    
+    //Method to confirm existence of user in the database (for delete user option)
+    public String validateUserRoleWithUsername(String username) {
+        //A string to confirm if the user is present in the database
+        //"invalid" will be returned if the user does not exist in the database
+        String userStatus = "invalid";
+        try {
+            String sql = "SELECT * FROM Users WHERE Username=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+
+            //getting the result
+            resultSet = preparedStatement.executeQuery();
+
+            //Return valid if the user exists
+            if (resultSet.next()) {
+                SQLQueries.userRoleForUpdate = resultSet.getInt("RoleID");
+                userStatus = "valid";
+            }
+        } catch (SQLException ex) {}
+        return userStatus;
+    }
+    
+    //Method to confirm existence of user in the database (for delete user option)
+    public String validateUserRoleWithEmailAddress(String email) {
+        //A string to confirm if the user is present in the database
+        //"invalid" will be returned if the user does not exist in the database
+        String userStatus = "invalid";
+        try {
+            String sql = "SELECT * FROM Users WHERE EmailAddress=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+
+            //getting the result
+            resultSet = preparedStatement.executeQuery();
+
+            //Return valid if the user exists
+            if (resultSet.next()) {
+                SQLQueries.userRoleForUpdate = resultSet.getInt("RoleID");
+                userStatus = "valid";
+            }
+        } catch (SQLException ex) {}
         return userStatus;
     }
 
@@ -110,15 +176,11 @@ public class SQLQueries {
         return userRole;
     }
 
-    // Getting all availabe books from the book table
+    // Getting all available books from the book table
     public ResultSet getAvailableBooks() {
         //
         try {
-            String sql = "SELECT B.BookID, B.Title, A.Name AS Author, "
-                    + "G.Name AS Genre, B.QuantityInStock FROM Books B "
-                    + "JOIN Authors A ON B.AuthorID = A.AuthorID "
-                    + "JOIN Genres G on B.GenreID = G.GenreID "
-                    + "WHERE QuantityInStock > 0";
+            String sql = "SELECT * FROM Books WHERE QuantityInStock > 0";
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
@@ -130,7 +192,7 @@ public class SQLQueries {
     public String validateBook(int bookID) {
         //Storing bookID in a static variable for future use in other methods
         SQLQueries.bookID = bookID;
-        
+
         //A String to confirm is Book is present in the database
         //"invalid" will be returned if the book does not exist in the database
         String bookStatus = "invalid";
@@ -157,14 +219,14 @@ public class SQLQueries {
         //"invalid" will be returned if the user has never loaned a book
         String status = "invalid";
         try {
-            String sql = "SELECT * FROM Issue WHERE UserID=?";
+            String sql = "SELECT * FROM Loans WHERE UserID=?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, SQLQueries.userID);
 
             //getting the result
             resultSet = preparedStatement.executeQuery();
 
-            // Check if such a user exists in Issue table
+            // Check if such a user exists in Loan table
             if (resultSet.next()) {
                 status = "valid";
             }
@@ -172,14 +234,14 @@ public class SQLQueries {
         }
         return status;
     }
-    
+
     //Method to confirm if user can loan a book
     public String validateUserLoan() {
         //A String to confirm if user can loan a book
         //"invalid" will be returned if the user has not returned loaned book
         String loanStatus = "invalid";
         try {
-            String sql = "SELECT Returned FROM Issue WHERE UserID="
+            String sql = "SELECT Returned FROM Loans WHERE UserID="
                     + "(SELECT UserID FROM Users WHERE Username =?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
@@ -200,10 +262,10 @@ public class SQLQueries {
     }
 
     // inserting a new loan in issue table
-    public boolean insertIssue() {
+    public boolean insertLoan() {
         boolean status = true;
         try {
-            String sql = "INSERT INTO Issue (UserID, BookID)"
+            String sql = "INSERT INTO Loans (UserID, BookID)"
                     + " VALUES(?,?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, SQLQueries.userID);
@@ -213,19 +275,18 @@ public class SQLQueries {
         }
         return status;
     }
-    
-    // Getting all availabe books from the book table
-    public ResultSet getIssueDetails() {
+
+    // Getting loan details from the book table
+    public ResultSet getLoanDetails() {
         //
         try {
-            //String sql = "SELECT * FROM Issue WHERE UserID=?";
-            String sql = "SELECT CAST(IssueDate AS DATE) AS IssueDate,"
-                    + "IssuePeriod,CAST(ExpectedReturnDate AS DATE) "
-                    + "AS ReturnDate FROM Issue WHERE UserID=?";
+            String sql = "SELECT CAST(LoanDate AS DATE) AS LoanDate,"
+                    + "LoanPeriod,CAST(ExpectedReturnDate AS DATE) "
+                    + "AS ReturnDate FROM Loans WHERE UserID=?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, SQLQueries.userID);
             resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet;
             }
         } catch (SQLException e) {
@@ -233,11 +294,11 @@ public class SQLQueries {
         // Return null if there are no values in the result set
         return null;
     }
-    
+
     // A method to insert a new user into the user table
-    public boolean addUser(String[] user){
+    public boolean addUser(String[] user) {
         boolean status = true;
-        try{
+        try {
             String sql = "INSERT INTO Users (FirstName, LastName, Age, Gender, "
                     + "PhoneNumber, Address, State, MothersMaidenName, "
                     + "Username, EmailAddress, Password) "
@@ -258,37 +319,36 @@ public class SQLQueries {
             preparedStatement.setString(11, user[10]); //Password
 
             status = preparedStatement.execute();
-            
-        }catch(SQLException e){
+
+        } catch (SQLException e) {
             // Providing user defined messages for errors in inserting
-            if(e.toString().contains("PhoneNumber")){
+            if (e.toString().contains("PhoneNumber")) {
                 JOptionPane.showMessageDialog(null,
-                    "A User with the Phone Number: " 
-                            + user[4] + " already exists!",
-                    "Phone Number Exists!", JOptionPane.WARNING_MESSAGE);
-            } else if(e.toString().contains("Username")){
+                        "A User with the Phone Number: "
+                        + user[4] + " already exists!",
+                        "Phone Number Exists!", JOptionPane.WARNING_MESSAGE);
+            } else if (e.toString().contains("Username")) {
                 JOptionPane.showMessageDialog(null,
-                    "A User with the Username: " 
-                            + user[8] + " already exists!",
-                    "Username Exists!", JOptionPane.WARNING_MESSAGE);
-            } else if(e.toString().contains("EmailAddress")){
+                        "A User with the Username: "
+                        + user[8] + " already exists!",
+                        "Username Exists!", JOptionPane.WARNING_MESSAGE);
+            } else if (e.toString().contains("EmailAddress")) {
                 JOptionPane.showMessageDialog(null,
-                    "A User with the Email Address: " 
-                            + user[9] + " already exists!",
-                    "Email Add Exists!", JOptionPane.WARNING_MESSAGE);
-            }
-            else{
+                        "A User with the Email Address: "
+                        + user[9] + " already exists!",
+                        "Email Add Exists!", JOptionPane.WARNING_MESSAGE);
+            } else {
                 JOptionPane.showMessageDialog(null,
-                    "An error occurred while inserting user details!",
-                    "An error occurred :(", JOptionPane.ERROR_MESSAGE);
+                        "An error occurred while inserting user details!",
+                        "An error occurred :(", JOptionPane.ERROR_MESSAGE);
             }
         }
         return status;
     }
-    
+
     // A method to verify user details before resetting password
-    public String validateUserPasswordDetails(String username, String email, 
-            String mothersMaidenName){
+    public String validateUserPasswordDetails(String username, String email,
+            String mothersMaidenName) {
         String userStatus = "invalid";
         try {
             String sql = "SELECT * FROM Users WHERE Username=?"
@@ -311,28 +371,91 @@ public class SQLQueries {
         }
         return userStatus;
     }
-    
+
     // A method to update the Users Table
-    public String updateUser(int userID, String updateColumn, String columnData){
+    public String updateUser(int userID, String updateColumn, String columnData) {
         String status = "failed";
-        try{
+        try {
             String sql = "UPDATE Users SET " + updateColumn + " =? WHERE "
                     + "UserID = ?";
             preparedStatement = connection.prepareStatement(sql);
-            
+
             preparedStatement.setString(1, columnData);
             preparedStatement.setInt(2, userID);
-            
+
             int check = preparedStatement.executeUpdate();
-            
-            if (check == 1){
+
+            if (check == 1) {
                 status = "successful";
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
+            // Providing user defined messages for errors in updating
+            if (e.toString().contains("PhoneNumber")) {
+                JOptionPane.showMessageDialog(null,
+                        "A User with the Phone Number: "
+                        + columnData + " already exists!",
+                        "Phone Number Exists!", JOptionPane.WARNING_MESSAGE);
+            } else if (e.toString().contains("Username")) {
+                JOptionPane.showMessageDialog(null,
+                        "A User with the Username: "
+                        + columnData + " already exists!",
+                        "Username Exists!", JOptionPane.WARNING_MESSAGE);
+            } else if (e.toString().contains("EmailAddress")) {
+                JOptionPane.showMessageDialog(null,
+                        "A User with the Email Address: "
+                        + columnData + " already exists!",
+                        "Email Add Exists!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "An error occurred while updating user details!",
+                        "An error occurred :(", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        
         return status;
     }
     
-    // A method to validate User ID
+    // Getting all Users (only) from the Users table for the Librarian Dashboard
+    public ResultSet getAllUsers(){
+        try{
+            String sql = "SELECT * FROM Users WHERE RoleID=3";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+        } catch(Exception e){        }
+        return resultSet;
+    }
+    
+    // Getting all Users (including Librarians and Administrators) 
+    // from the Users table for the Administrator Dashboard
+    public ResultSet getAllUsersAndOfficers(){
+        try{
+            String sql = "SELECT * FROM Users";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+        } catch(Exception e){        }
+        return resultSet;
+    }
+    
+    //method to delete from the Users Table
+    public int deleteUser(String column, String value){
+        int deleteStatus = 0;
+        try{
+            String sql = "DELETE FROM Users WHERE " + column + " =?";
+            preparedStatement = connection.prepareStatement(sql);
+            
+            //Checking if the column provided is the UserId
+            //Because UserId is int not String
+            if(column.equals("UserID")){
+                preparedStatement.setInt(1, Integer.parseInt(value));
+            } else{
+                preparedStatement.setString(1, value);
+            }
+            deleteStatus = preparedStatement.executeUpdate();
+        }catch(SQLException e){
+        }catch(NumberFormatException ne){
+            JOptionPane.showMessageDialog(null,
+                    "Invalid User Id!",
+                    "Invalid Id", JOptionPane.WARNING_MESSAGE);
+        }
+        return deleteStatus;
+    }
 }

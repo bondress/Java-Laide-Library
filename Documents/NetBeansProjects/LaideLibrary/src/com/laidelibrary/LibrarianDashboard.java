@@ -19,8 +19,13 @@ public class LibrarianDashboard extends javax.swing.JFrame {
     public LibrarianDashboard(String username) {
         LibrarianDashboard.username = username;
         initComponents();
-        //Centralise the User Dashboard
+        
+        //Centralise the Window
         this.setLocationRelativeTo(null);
+
+        //Stop the Window Exit Button from closing the application
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         //Customise Welcome Label
         lblWelcome.setText("Welcome, " + username);
     }
