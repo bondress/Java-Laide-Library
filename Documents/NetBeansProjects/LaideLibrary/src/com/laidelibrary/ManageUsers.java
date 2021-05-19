@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -50,7 +52,40 @@ public class ManageUsers extends javax.swing.JFrame {
         tbAllUsers.setEnabled(false);
     }
 
-    public void checkUserStatusBeforeDeleting(String statusOfUserToBeDeleted, 
+    public void updateUser(int userID, String column, String data) {
+        // Check if State is to be updated before updating User details
+        if (column.equals("State")) {
+            data = cbState.getSelectedItem().toString();
+        }
+        // update the user's details
+        String updateStatus
+                = sqlqueriesObject.updateUser(userID, column, data);
+        if (updateStatus.equals("successful")) {
+            JOptionPane.showMessageDialog(this,
+                    "Update Successful!", "Success!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            // Executing the method within the SQLQueries class to populate the
+            // table with the current contents and saving it to the ResultSet object
+            tableContents = sqlqueriesObject.getAllUsers();
+
+            // Populating the Java table object with the values in the 
+            // saved ResultSet object
+            tbAllUsers.setModel(DbUtils.resultSetToTableModel(tableContents));
+
+            // Reset all delete fields
+            spnUserID.setValue(0);
+            cbUpdateColumn.setSelectedItem("Select");
+            txtUpdateValue.setText("");
+            cbState.setSelectedItem("Select");
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Unable to update User's Details!",
+                    "An error occured!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void checkUserStatusBeforeDeleting(String statusOfUserToBeDeleted,
             String column, String value) {
         switch (statusOfUserToBeDeleted) {
             case "valid":
@@ -71,13 +106,17 @@ public class ManageUsers extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this,
                                     "User deleted successfully!", "Success!",
                                     JOptionPane.INFORMATION_MESSAGE);
-                            // Executing the required method within the SQLQueries class
-                            // and saving it to the ResultSet object
+                            // Executing the method within the SQLQueries class to populate the
+                            // table with the current contents and saving it to the ResultSet object
                             tableContents = sqlqueriesObject.getAllUsers();
 
                             // Populating the Java table object with the values in the 
                             // saved ResultSet object
                             tbAllUsers.setModel(DbUtils.resultSetToTableModel(tableContents));
+
+                            // Reset all delete fields
+                            cbDeleteColumn.setSelectedItem("Select");
+                            txtDeleteValue.setText("");
                             break;
                         default:
                             JOptionPane.showMessageDialog(this,
@@ -125,6 +164,9 @@ public class ManageUsers extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         cbState = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnRefreshTable = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 632));
@@ -247,6 +289,37 @@ public class ManageUsers extends javax.swing.JFrame {
         cbState.setForeground(new java.awt.Color(56, 72, 96));
         cbState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Federal Capital Territory", "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara" }));
         cbState.setEnabled(false);
+        cbState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbStateActionPerformed(evt);
+            }
+        });
+
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Cambria", 3, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(56, 72, 96));
+        jLabel1.setText("Search:");
+
+        btnRefreshTable.setBackground(new java.awt.Color(56, 72, 96));
+        btnRefreshTable.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
+        btnRefreshTable.setForeground(new java.awt.Color(255, 255, 255));
+        btnRefreshTable.setText("Refresh Table");
+        btnRefreshTable.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnRefreshTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshTableActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -256,33 +329,37 @@ public class ManageUsers extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 477, Short.MAX_VALUE)
+                        .addGap(0, 460, Short.MAX_VALUE)
                         .addComponent(lblAllUsers)
-                        .addGap(476, 476, 476)))
+                        .addGap(200, 200, 200)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRefreshTable, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(62, 62, 62)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtUpdateValue)
-                                    .addComponent(cbState, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbDeleteColumn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtDeleteValue)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(cbUpdateColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(55, 55, 55))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGap(11, 11, 11)
+                            .addComponent(lblColumnToUpdate)
+                            .addGap(60, 60, 60))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(52, 52, 52)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblColumnToUpdate))
-                            .addGap(60, 60, 60)))
+                                .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUpdateValue)
+                                        .addComponent(cbState, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbDeleteColumn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtDeleteValue)
+                                        .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(cbUpdateColumn, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(55, 55, 55)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -354,7 +431,11 @@ public class ManageUsers extends javax.swing.JFrame {
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAllUsers)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblAllUsers)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(btnRefreshTable))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))
                     .addComponent(jSeparator1)))
@@ -365,7 +446,7 @@ public class ManageUsers extends javax.swing.JFrame {
 
     private void btnCreateNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewUserActionPerformed
         // Display the User Registration Form
-        UserRegistration_Admin urObject = new UserRegistration_Admin();
+        UserRegistration_Librarian urObject = new UserRegistration_Librarian();
         urObject.setVisible(true);
     }//GEN-LAST:event_btnCreateNewUserActionPerformed
 
@@ -414,7 +495,7 @@ public class ManageUsers extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this,
                         "Please select a column to be updated!",
                         "Select update column!", JOptionPane.WARNING_MESSAGE);
-            } else if (data.trim().isEmpty()) {
+            } else if (data.trim().isEmpty() && !cbState.isEnabled()) {
                 JOptionPane.showMessageDialog(this, "Please enter the new " + column
                         + "!", column + " Field is Blank!",
                         JOptionPane.WARNING_MESSAGE);
@@ -438,13 +519,6 @@ public class ManageUsers extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please enter a valid " + column
                         + "!", "Invalid " + column + "!",
                         JOptionPane.WARNING_MESSAGE);
-            } else if (column.equals("State")) {
-                data = cbState.getSelectedItem().toString();
-                if (data.equalsIgnoreCase("Select")) {
-                    JOptionPane.showMessageDialog(this, "Please select a " + column
-                            + "!", "Select a " + column + "!",
-                            JOptionPane.WARNING_MESSAGE);
-                }
             } else if (column.equals("MothersMaidenName") && !mothersMaidenNameMatcher.matches()) {
                 JOptionPane.showMessageDialog(this, "Please enter valid " + column
                         + "!", "Invalid " + column + "!",
@@ -461,6 +535,10 @@ public class ManageUsers extends javax.swing.JFrame {
             } else if (column.equals("Password") && !passwordMatcher.matches()) {
                 JOptionPane.showMessageDialog(this, "Please enter valid " + column
                         + "!", "Invalid " + column + "!",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (column.equals("State") && cbState.getSelectedItem().toString().equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a " + column
+                        + "!", "Select a " + column + "!",
                         JOptionPane.WARNING_MESSAGE);
             } else {
                 // Check if user to be updated exists in the database
@@ -483,33 +561,8 @@ public class ManageUsers extends javax.swing.JFrame {
                                     "Error!",
                                     JOptionPane.ERROR_MESSAGE);
                         } else {
-                            // update the user's details
-                            String updateStatus
-                                    = queryObject.updateUser(userID, column, data);
-                            if (updateStatus.equals("successful")) {
-                                JOptionPane.showMessageDialog(this,
-                                        "Update Successful!", "Success!",
-                                        JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                JOptionPane.showMessageDialog(this,
-                                        "Unable to update User's Details!",
-                                        "An error occured!",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                    } else if (userRole.equals("administrator")) {
-                        // update the user's details
-                        String updateStatus
-                                = queryObject.updateUser(userID, column, data);
-                        if (updateStatus.equals("successful")) {
-                            JOptionPane.showMessageDialog(this,
-                                    "Update Successful!", "Success!",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(this,
-                                    "Unable to update User's Details!",
-                                    "An error occured!",
-                                    JOptionPane.ERROR_MESSAGE);
+                            //Update the User's Details
+                            updateUser(userID, column, data);
                         }
                     } else if (userRole.equals("user")) {
                         JOptionPane.showMessageDialog(this,
@@ -524,19 +577,8 @@ public class ManageUsers extends javax.swing.JFrame {
                                 JOptionPane.ERROR_MESSAGE);
                         System.exit(0);
                     } else {
-                        // update the user's details
-                        String updateStatus
-                                = queryObject.updateUser(userID, column, data);
-                        if (updateStatus.equals("successful")) {
-                            JOptionPane.showMessageDialog(this,
-                                    "Update Successful!", "Success!",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(this,
-                                    "Unable to update User's Details!",
-                                    "An error occured!",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
+                        //Update the User's Details
+                        updateUser(userID, column, data);
                     }
                 } else {
                     JOptionPane.showMessageDialog(this,
@@ -591,25 +633,25 @@ public class ManageUsers extends javax.swing.JFrame {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUser(Integer.parseInt(value));
                         ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
-                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted, 
+                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     } else if (column.equals("PhoneNumber") && !value.trim().isEmpty()) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUserRoleWithPhoneNumber(value);
                         ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
-                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted, 
+                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     } else if (column.equals("Username") && !value.trim().isEmpty()) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUserRoleWithUsername(value);
                         ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
-                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted, 
+                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     } else if (column.equals("EmailAddress") && !value.trim().isEmpty()) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUserRoleWithEmailAddress(value);
                         ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
-                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted, 
+                        checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     }
                 }
@@ -636,35 +678,86 @@ public class ManageUsers extends javax.swing.JFrame {
         if (cbUpdateColumn.getSelectedItem().toString().equals("FirstName")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("LastName")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("Age")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("PhoneNumber")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("Address")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("State")) {
             cbState.setEnabled(true);
+            txtUpdateValue.setText("");
             txtUpdateValue.setEnabled(false);
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("MothersMaidenName")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("Username")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("EmailAddress")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         } else if (cbUpdateColumn.getSelectedItem().toString().equals("Password")) {
             txtUpdateValue.setEnabled(true);
             cbState.setEnabled(false);
+            cbState.setSelectedItem("Select");
         }
     }//GEN-LAST:event_cbUpdateColumnActionPerformed
+
+    private void cbStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbStateActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // The object to filter through
+        TableRowSorter sorter;
+
+        // Executing the required method within the SQLQueries class
+        // and saving it to the ResultSet object
+        tableContents = sqlqueriesObject.getAllUsers();
+
+        // Setting up the search functionality
+        sorter = new TableRowSorter<>(DbUtils.resultSetToTableModel(tableContents));
+        tbAllUsers.setRowSorter(sorter);
+
+        // Getting the value typed
+        String search = txtSearch.getText();
+
+        // Filtering through the values in the table
+        if (txtSearch.getText().trim().isEmpty()) {
+            sorter.setRowFilter(null);
+        } else {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + search));
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void btnRefreshTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTableActionPerformed
+        // Executing the method within the SQLQueries class to populate the
+        // table with the current contents and saving it to the ResultSet object
+        ResultSet newContents = sqlqueriesObject.getAllUsers();
+
+        // Populating the Java table object with the values in the 
+        // saved ResultSet object
+        tbAllUsers.setModel(DbUtils.resultSetToTableModel(newContents));
+    }//GEN-LAST:event_btnRefreshTableActionPerformed
 
     /**
      * @param args the command line arguments
@@ -705,10 +798,12 @@ public class ManageUsers extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreateNewUser;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRefreshTable;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbDeleteColumn;
     private javax.swing.JComboBox<String> cbState;
     private javax.swing.JComboBox<String> cbUpdateColumn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -722,6 +817,7 @@ public class ManageUsers extends javax.swing.JFrame {
     private javax.swing.JSpinner spnUserID;
     private javax.swing.JTable tbAllUsers;
     private javax.swing.JTextField txtDeleteValue;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtUpdateValue;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,16 +14,16 @@ import javax.swing.JOptionPane;
  *
  * @author pc
  */
-public class UserRegistration_Admin extends javax.swing.JFrame {
+public class UserRegistration_Librarian extends javax.swing.JFrame {
 
     /**
      * Creates new form UserRegistration_Librarian
      */
-    public UserRegistration_Admin() {
+    public UserRegistration_Librarian() {
         initComponents();
         //Centralise the User Registration Window
         this.setLocationRelativeTo(null);
-        
+
         //Stop the Window Exit Button from closing the application
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
@@ -70,6 +70,12 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
 
         txtPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -342,7 +348,7 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
 
         // pattern for valid email
         Pattern emailPattern
-        = Pattern.compile("[a-zA-Z0-9._]+@[a-z]+\\.[a-z]{2,3}");
+                = Pattern.compile("[a-zA-Z0-9._]+@[a-z]+\\.[a-z]{2,3}$");
 
         //the pattern for valid phone number
         Pattern phonePattern = Pattern.compile("0+[7-9]{1}[01]{1}[0-9]{8}");
@@ -350,116 +356,115 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
         // pattern for valid password
         Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=."
                 + "*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
-        
+
         // matching the text in the fields against their respective patterns
         Matcher firstNameMatcher = namePattern.matcher(txtFirstName.getText());
         Matcher lastNameMatcher = namePattern.matcher(txtLastName.getText());
-        Matcher mothersMaidenNameMatcher =
-        namePattern.matcher(txtMothersMaidenName.getText());
+        Matcher mothersMaidenNameMatcher
+                = namePattern.matcher(txtMothersMaidenName.getText());
         Matcher phoneMatcher = phonePattern.matcher(txtPhoneNumber.getText());
         Matcher emailMatcher = emailPattern.matcher(txtEmail.getText());
-        Matcher passwordMatcher = 
-                passwordPattern.matcher(txtPassword.getText());
+        Matcher passwordMatcher
+                = passwordPattern.matcher(txtPassword.getText());
 
         //Confirm that all fields are not left blank
         if (txtFirstName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your First Name!",
-                "First Name Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Please enter your First Name!",
+                    "First Name Field is Blank!", JOptionPane.WARNING_MESSAGE);
         } else if (!firstNameMatcher.matches()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter a valid First Name!",
-                "Invalid First Name!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter a valid First Name!",
+                    "Invalid First Name!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (txtLastName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Last Name!",
-                "Last Name Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Please enter your Last Name!",
+                    "Last Name Field is Blank!", JOptionPane.WARNING_MESSAGE);
         } else if (!lastNameMatcher.matches()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter a valid Last Name!",
-                "Invalid Last Name!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter a valid Last Name!",
+                    "Invalid Last Name!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (spAge.getValue().toString().equals("0")) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Age!",
-                "Age Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Please enter your Age!",
+                    "Age Field is Blank!", JOptionPane.WARNING_MESSAGE);
         } else if (Integer.parseInt(spAge.getValue().toString()) < 16) {
             JOptionPane.showMessageDialog(this,
-                "You must be at least 16 years old to register!",
-                "Too Young!", JOptionPane.WARNING_MESSAGE);
+                    "You must be at least 16 years old to register!",
+                    "Too Young!", JOptionPane.WARNING_MESSAGE);
             spAge.setEnabled(false);
         } else if (!rdMale.isSelected() && !rdFemale.isSelected()) {
             JOptionPane.showMessageDialog(this,
-                "Please select a Gender!",
-                "Select a Gender!", JOptionPane.WARNING_MESSAGE);
-        }  else if (txtPhoneNumber.getText().trim().isEmpty()) {
+                    "Please select a Gender!",
+                    "Select a Gender!", JOptionPane.WARNING_MESSAGE);
+        } else if (txtPhoneNumber.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Phone Number!",
-                "Phone Number Field is Blank!",
-                JOptionPane.WARNING_MESSAGE);
-        }  else if (!phoneMatcher.matches()) {
+                    "Please enter your Phone Number!",
+                    "Phone Number Field is Blank!",
+                    JOptionPane.WARNING_MESSAGE);
+        } else if (!phoneMatcher.matches()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter a valid Phone Number!",
-                "Invalid Phone Number!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter a valid Phone Number!",
+                    "Invalid Phone Number!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (txtAddress.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Address!",
-                "Address Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Please enter your Address!",
+                    "Address Field is Blank!", JOptionPane.WARNING_MESSAGE);
         } else if (cbState.getSelectedItem().equals("Select")) {
             JOptionPane.showMessageDialog(this,
-                "Please choose your State!",
-                "State Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Please choose your State!",
+                    "Choose a State!", JOptionPane.WARNING_MESSAGE);
         } else if (txtMothersMaidenName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Mother's Maiden Name!",
-                "Mother's Maiden Name Field is Blank!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter your Mother's Maiden Name!",
+                    "Mother's Maiden Name Field is Blank!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (!mothersMaidenNameMatcher.matches()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter a valid Mother's Maiden Name!",
-                "Invalid Mother's Maiden Name!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter a valid Mother's Maiden Name!",
+                    "Invalid Mother's Maiden Name!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (txtEmail.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Email Address!",
-                "Email Address Field is Blank!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter your Email Address!",
+                    "Email Address Field is Blank!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (!emailMatcher.matches()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter a valid Email Address!",
-                "Invalid Email Address!",
-                JOptionPane.WARNING_MESSAGE);
+                    "Please enter a valid Email Address!",
+                    "Invalid Email Address!",
+                    JOptionPane.WARNING_MESSAGE);
         } else if (txtPassword.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please enter your Password!",
-                "Password Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Please enter your Password!",
+                    "Password Field is Blank!", JOptionPane.WARNING_MESSAGE);
         } else if (!passwordMatcher.matches()) {
             JOptionPane.showMessageDialog(this,
                     "Please enter a valid Password!\n"
-                            + "All passwords must: \n"
-                            + "<html><ul><li>Contain 8 characters, minimum and"
-                            + "20 characters, maximum.</li>"
-                            + "<li>Contain at least one digit.</li>" 
-                            + "<li>Contain at least one upper case alphabet.</li>" 
-                            + "<li>Contain at least one lower case alphabet.</li>" 
-                            + "<li>Contain at least one special character "
-                            + "which includes !@#$%&*()-+=^.</li>" 
-                            + "<li>Not contain any white space.</li></ul></html>",
+                    + "All passwords must: \n"
+                    + "<html><ul><li>Contain 8 characters, minimum and"
+                    + "20 characters, maximum.</li>"
+                    + "<li>Contain at least one digit.</li>"
+                    + "<li>Contain at least one upper case alphabet.</li>"
+                    + "<li>Contain at least one lower case alphabet.</li>"
+                    + "<li>Contain at least one special character "
+                    + "which includes !@#$%&*()-+=^.</li>"
+                    + "<li>Not contain any white space.</li></ul></html>",
                     "Invalid Password!",
                     JOptionPane.WARNING_MESSAGE);
-        }
-        else if (txtReEnterPassword.getText().trim().isEmpty()) {
+        } else if (txtReEnterPassword.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Please re-enter your Password!",
-                "Re-enter Password Field is Blank!",
-                JOptionPane.WARNING_MESSAGE);
-        } else if(!txtPassword.getText().equals(txtReEnterPassword.getText())){
+                    "Please re-enter your Password!",
+                    "Re-enter Password Field is Blank!",
+                    JOptionPane.WARNING_MESSAGE);
+        } else if (!txtPassword.getText().equals(txtReEnterPassword.getText())) {
             JOptionPane.showMessageDialog(this,
-                "The passwords do not match!",
-                "Password Mismatch!",
-                JOptionPane.WARNING_MESSAGE);
+                    "The passwords do not match!",
+                    "Password Mismatch!",
+                    JOptionPane.WARNING_MESSAGE);
         } else {
             // Create an array to hold the user's details
             String[] newUser = new String[11];
@@ -481,16 +486,16 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
 
             // Run the query to insert a new user
             SQLQueries queryObject = new SQLQueries();
-            boolean status = queryObject.addUser(newUser);
+            boolean status = queryObject.insertUser(newUser);
 
             // If the query executes successfully, notify the user
             if (status == false) {
-               int createNewUser = JOptionPane.showConfirmDialog(this,
-                    "Registration Successful!\n"
-                            + "Would you like to create another user?", 
-                    "Success!",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                switch(createNewUser){
+                int createNewUser = JOptionPane.showConfirmDialog(this,
+                        "Registration Successful!\n"
+                        + "Would you like to create another user?",
+                        "Success!",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                switch (createNewUser) {
                     // If the Librarian/Admin chooses yes
                     case 0:
                         // Reset the form
@@ -508,14 +513,19 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
                         break;
                     // If the Librarian/Admin chooses no
                     case 1:
+                        JOptionPane.showMessageDialog(this,
+                                "Click on the Refresh Table button to "
+                                + "view new Users!",
+                                "Refesh Table!",
+                                JOptionPane.INFORMATION_MESSAGE);
                         // Close this page
                         this.dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(this,
-                    "Registration Unsuccessful!",
-                    "Error!",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Registration Unsuccessful!",
+                        "Error!",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
@@ -529,6 +539,11 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLastNameActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        JOptionPane.showMessageDialog(this,
+                "Click on the Refresh Table button to "
+                + "view new Users!",
+                "Refesh Table!",
+                JOptionPane.INFORMATION_MESSAGE);
         // Close this page
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
@@ -537,10 +552,9 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
         // Ensure that the passwords match
         // Green indicates that they match
         // Red indicates that they do not match
-        if(txtPassword.getText().equals(txtReEnterPassword.getText())){
+        if (txtPassword.getText().equals(txtReEnterPassword.getText())) {
             txtReEnterPassword.setForeground(Color.GREEN);
-        }
-        else{
+        } else {
             txtReEnterPassword.setForeground(Color.red);
         }
     }//GEN-LAST:event_txtReEnterPasswordKeyReleased
@@ -561,6 +575,20 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        // pattern for valid password
+        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=."
+                + "*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
+        // matching the text in the passwordfield against its pattern
+        Matcher passwordMatcher
+                = passwordPattern.matcher(txtPassword.getText());
+        if (passwordMatcher.matches()) {
+            txtPassword.setForeground(Color.GREEN);
+        } else {
+            txtPassword.setForeground(Color.RED);
+        }
+    }//GEN-LAST:event_txtPasswordKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -578,21 +606,23 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserRegistration_Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRegistration_Librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserRegistration_Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRegistration_Librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserRegistration_Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRegistration_Librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserRegistration_Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserRegistration_Librarian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserRegistration_Admin().setVisible(true);
+                new UserRegistration_Librarian().setVisible(true);
             }
         });
     }

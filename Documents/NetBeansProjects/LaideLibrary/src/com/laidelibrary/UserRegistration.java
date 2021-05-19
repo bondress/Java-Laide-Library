@@ -178,6 +178,17 @@ public class UserRegistration extends javax.swing.JFrame {
             }
         });
 
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
+
         txtPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPhoneNumberActionPerformed(evt);
@@ -465,7 +476,7 @@ public class UserRegistration extends javax.swing.JFrame {
         } else if (cbState.getSelectedItem().equals("Select")) {
             JOptionPane.showMessageDialog(this,
                     "Please choose your State!",
-                    "State Field is Blank!", JOptionPane.WARNING_MESSAGE);
+                    "Choose a State!", JOptionPane.WARNING_MESSAGE);
         } else if (txtMothersMaidenName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Please enter your Mother's Maiden Name!",
@@ -535,7 +546,7 @@ public class UserRegistration extends javax.swing.JFrame {
 
             // Run the query to insert a new user
             SQLQueries queryObject = new SQLQueries();
-            boolean status = queryObject.addUser(newUser);
+            boolean status = queryObject.insertUser(newUser);
 
             // If the query executes successfully, notify the user
             if (status == false) {
@@ -588,6 +599,24 @@ public class UserRegistration extends javax.swing.JFrame {
     private void cbStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbStateActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        // pattern for valid password
+        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=."
+                + "*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
+        // matching the text in the passwordfield against its pattern
+        Matcher passwordMatcher = 
+                passwordPattern.matcher(txtPassword.getText());
+        if(passwordMatcher.matches()){
+            txtPassword.setForeground(Color.GREEN);
+        } else{
+            txtPassword.setForeground(Color.RED);
+        }
+    }//GEN-LAST:event_txtPasswordKeyReleased
 
     /**
      * @param args the command line arguments

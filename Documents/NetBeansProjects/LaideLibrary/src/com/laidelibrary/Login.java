@@ -6,6 +6,8 @@
 package com.laidelibrary;
 
 import java.awt.Cursor;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
 
 /**

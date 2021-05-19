@@ -279,13 +279,13 @@ public class UserDashboard extends javax.swing.JFrame {
                     .addComponent(lblLoanDate1)
                     .addComponent(lblLoanDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPeriod1)
-                    .addComponent(lblPeriod2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPeriod1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblPeriod2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblExpectedReturnDate1)
-                    .addComponent(lblExpectedReturnDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlLendFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblExpectedReturnDate1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblExpectedReturnDate2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
@@ -427,7 +427,7 @@ public class UserDashboard extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this,
                     "Error Inserting Loan Details!",
-                    "Oops! An error occured!",
+                    "An error occured!",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
