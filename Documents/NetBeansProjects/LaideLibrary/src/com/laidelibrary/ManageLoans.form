@@ -96,15 +96,13 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                               <Component id="lblTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="467" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblLogo" min="-2" pref="177" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="510" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="lblLogo" min="-2" pref="177" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="510" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -344,7 +342,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="60" green="48" red="38" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Manage Loaned Books"/>
+        <Property name="text" type="java.lang.String" value="Manage Loans"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
     </Component>

@@ -211,6 +211,7 @@ public class Login extends javax.swing.JFrame {
                             .setTitle(txtUsername.getText()
                                     + " - Administrator");
                     administratorDashboardObject.setVisible(true);
+                    this.dispose();
                 } else if (role.equals("invalid")) {
                     JOptionPane.showMessageDialog(this,
                             "Invalid User!Exiting...",

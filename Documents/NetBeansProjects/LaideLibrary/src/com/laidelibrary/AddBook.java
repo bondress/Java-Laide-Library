@@ -23,6 +23,9 @@ public class AddBook extends javax.swing.JFrame {
 
         //Centralise the Window
         this.setLocationRelativeTo(null);
+        
+        //Disable resizing
+        this.setResizable(false);
 
         //Stop the Window Exit Button from closing the application
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -204,8 +207,8 @@ public class AddBook extends javax.swing.JFrame {
     private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBookActionPerformed
         // patterns for valid title and author
         Pattern titlePattern
-                = Pattern.compile("^[A-Za-z0-9\\s\\-()\\?!'\\.]{2,100}+$");
-        Pattern authorPattern = Pattern.compile("[A-Za-z\\s\\.]{2,100}");
+                = Pattern.compile("^[A-Za-z0-9\\s\\-()\\?!'\\.,;]{2,100}+$");
+        Pattern authorPattern = Pattern.compile("[A-Za-z\\s\\.,;]{2,100}");
 
         // matching the text in the fields against their respective patterns
         Matcher titleMatcher = titlePattern.matcher(txtTitle.getText());

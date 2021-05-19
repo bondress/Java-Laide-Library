@@ -33,6 +33,9 @@ public class ManageLoans extends javax.swing.JFrame {
 
         //Centralise the Window
         this.setLocationRelativeTo(null);
+        
+        //Disable resizing
+        this.setResizable(false);
 
         //Stop the Window Exit Button from closing the application
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -191,7 +194,7 @@ public class ManageLoans extends javax.swing.JFrame {
 
         lblTitle.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(56, 72, 96));
-        lblTitle.setText("Manage Loaned Books");
+        lblTitle.setText("Manage Loans");
         lblTitle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblBookId1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
@@ -307,12 +310,11 @@ public class ManageLoans extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblTitle)
-                                .addGap(467, 467, 467))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(510, 510, 510))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(lblTitle))
+                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(510, 510, 510))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

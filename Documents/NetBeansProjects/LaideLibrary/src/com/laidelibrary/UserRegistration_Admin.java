@@ -23,6 +23,9 @@ public class UserRegistration_Admin extends javax.swing.JFrame {
         initComponents();
         //Centralise the User Registration Window
         this.setLocationRelativeTo(null);
+        
+        //Disable resizing
+        this.setResizable(false);
 
         //Stop the Window Exit Button from closing the application
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

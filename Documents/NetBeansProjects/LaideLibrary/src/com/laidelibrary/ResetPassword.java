@@ -25,6 +25,9 @@ public class ResetPassword extends javax.swing.JFrame {
         //Centralise the Reset Password Window
         this.setLocationRelativeTo(null);
         
+        //Disable resizing
+        this.setResizable(false);
+        
         //Stop the Window Exit Button from closing the application
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         
