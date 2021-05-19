@@ -6,8 +6,6 @@
 package com.laidelibrary;
 
 import java.awt.Cursor;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
 
 /**
@@ -207,7 +205,12 @@ public class Login extends javax.swing.JFrame {
                     librarianDashboardObject.setVisible(true);
                     this.dispose();
                 } else if (role.equals("administrator")) {
-
+                    AdministratorDashboard administratorDashboardObject 
+                            = new AdministratorDashboard(txtUsername.getText());
+                    administratorDashboardObject
+                            .setTitle(txtUsername.getText()
+                                    + " - Administrator");
+                    administratorDashboardObject.setVisible(true);
                 } else if (role.equals("invalid")) {
                     JOptionPane.showMessageDialog(this,
                             "Invalid User!Exiting...",

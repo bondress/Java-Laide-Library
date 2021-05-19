@@ -401,7 +401,59 @@ public class SQLQueries {
                 JOptionPane.showMessageDialog(null,
                         "A User with the Email Address: "
                         + user[9] + " already exists!",
-                        "Email Add Exists!", JOptionPane.WARNING_MESSAGE);
+                        "Email Address Exists!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "An error occurred while inserting user details!",
+                        "An error occurred :(", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return status;
+    }
+    
+    // A method to insert a new user into the user table
+    public boolean insertUser_Admin(String[] user) {
+        boolean status = true;
+        try {
+            String sql = "INSERT INTO Users (FirstName, LastName, Age, Gender, "
+                    + "PhoneNumber, Address, State, MothersMaidenName, "
+                    + "Username, EmailAddress, Password, RoleID) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ";
+
+            preparedStatement = connection.prepareStatement(sql);
+            // passing the variables into the sql statement
+            preparedStatement.setString(1, user[0]); //FirstName
+            preparedStatement.setString(2, user[1]); //LastName
+            preparedStatement.setInt(3, Integer.parseInt(user[2])); //Age
+            preparedStatement.setString(4, user[3]); //Gender
+            preparedStatement.setString(5, user[4]); //Phone Number
+            preparedStatement.setString(6, user[5]); //Address
+            preparedStatement.setString(7, user[6]); //State
+            preparedStatement.setString(8, user[7]); //Mother's Maiden Name
+            preparedStatement.setString(9, user[8]); //Username
+            preparedStatement.setString(10, user[9]); //Email Address
+            preparedStatement.setString(11, user[10]); //Password
+            preparedStatement.setInt(12, Integer.parseInt(user[11]));
+
+            status = preparedStatement.execute();
+
+        } catch (SQLException e) {
+            // Providing user defined messages for errors in inserting
+            if (e.toString().contains("PhoneNumber")) {
+                JOptionPane.showMessageDialog(null,
+                        "A User with the Phone Number: "
+                        + user[4] + " already exists!",
+                        "Phone Number Exists!", JOptionPane.WARNING_MESSAGE);
+            } else if (e.toString().contains("Username")) {
+                JOptionPane.showMessageDialog(null,
+                        "A User with the Username: "
+                        + user[8] + " already exists!",
+                        "Username Exists!", JOptionPane.WARNING_MESSAGE);
+            } else if (e.toString().contains("EmailAddress")) {
+                JOptionPane.showMessageDialog(null,
+                        "A User with the Email Address: "
+                        + user[9] + " already exists!",
+                        "Email Address Exists!", JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null,
                         "An error occurred while inserting user details!",
@@ -494,7 +546,11 @@ public class SQLQueries {
     // from the Users table for the Administrator Dashboard
     public ResultSet getAllUsersAndOfficers() {
         try {
-            String sql = "SELECT * FROM Users";
+            String sql = "SELECT UserID, FirstName, LastName, Age, Gender, "
+                    + "PhoneNumber, Address, State, MothersMaidenName, Username,"
+                    + "EmailAddress, Password, CASE WHEN RoleID = 1 THEN "
+                    + "'Administrator' WHEN RoleID = 2 THEN 'Librarian' "
+                    + "WHEN RoleID = 3 THEN 'User' END Role FROM Users";
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
         } catch (Exception e) {

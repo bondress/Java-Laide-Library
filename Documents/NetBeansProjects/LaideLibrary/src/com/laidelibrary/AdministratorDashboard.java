@@ -169,7 +169,7 @@ public class AdministratorDashboard extends javax.swing.JFrame {
 
     private void btnManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUsersActionPerformed
         // Open the Manage Users Dashboard
-        ManageUsers muObject = new ManageUsers();
+        ManageUsers_Admin muObject = new ManageUsers_Admin();
         // make the librarian's username the title of the window
         muObject.setTitle(username);
         muObject.setVisible(true);

@@ -17,7 +17,7 @@ import net.proteanit.sql.DbUtils;
  *
  * @author pc
  */
-public class ManageUsers extends javax.swing.JFrame {
+public class ManageUsers_Admin extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageUsers
@@ -33,7 +33,7 @@ public class ManageUsers extends javax.swing.JFrame {
     // Static variable that holds the user ID of the User to be updated
     static int userRoleForUpdate;
 
-    public ManageUsers() {
+    public ManageUsers_Admin() {
         initComponents();
 
         //Centralise the Window
@@ -44,7 +44,7 @@ public class ManageUsers extends javax.swing.JFrame {
 
         // Executing the required method within the SQLQueries class
         // and saving it to the ResultSet object
-        tableContents = sqlqueriesObject.getAllUsers();
+        tableContents = sqlqueriesObject.getAllUsersAndOfficers();
 
         // Populating the Java table object with the values in the 
         // saved ResultSet object
@@ -66,7 +66,7 @@ public class ManageUsers extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             // Executing the method within the SQLQueries class to populate the
             // table with the current contents and saving it to the ResultSet object
-            tableContents = sqlqueriesObject.getAllUsers();
+            tableContents = sqlqueriesObject.getAllUsersAndOfficers();
 
             // Populating the Java table object with the values in the 
             // saved ResultSet object
@@ -89,14 +89,9 @@ public class ManageUsers extends javax.swing.JFrame {
             String column, String value) {
         switch (statusOfUserToBeDeleted) {
             case "valid":
-                if (ManageUsers.userRoleForUpdate == 1) {
+                if (ManageUsers_Admin.userRoleForUpdate == 1) {
                     JOptionPane.showMessageDialog(this,
                             "You cannot delete Administrator Details!",
-                            "Error!",
-                            JOptionPane.ERROR_MESSAGE);
-                } else if (ManageUsers.userRoleForUpdate == 2) {
-                    JOptionPane.showMessageDialog(this,
-                            "You cannot delete Librarian Details!",
                             "Error!",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -108,7 +103,7 @@ public class ManageUsers extends javax.swing.JFrame {
                                     JOptionPane.INFORMATION_MESSAGE);
                             // Executing the method within the SQLQueries class to populate the
                             // table with the current contents and saving it to the ResultSet object
-                            tableContents = sqlqueriesObject.getAllUsers();
+                            tableContents = sqlqueriesObject.getAllUsersAndOfficers();
 
                             // Populating the Java table object with the values in the 
                             // saved ResultSet object
@@ -446,7 +441,7 @@ public class ManageUsers extends javax.swing.JFrame {
 
     private void btnCreateNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewUserActionPerformed
         // Display the User Registration Form
-        UserRegistration_Librarian urObject = new UserRegistration_Librarian();
+        UserRegistration_Admin urObject = new UserRegistration_Admin();
         urObject.setVisible(true);
     }//GEN-LAST:event_btnCreateNewUserActionPerformed
 
@@ -545,41 +540,8 @@ public class ManageUsers extends javax.swing.JFrame {
                 String userStatus = queryObject.validateUser(userID);
 
                 if (userStatus.equals("valid")) {
-                    // If the user exists, verify the role of the logged in user
-                    String userRole = queryObject.validateUserRole();
-                    ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
-
-                    if (userRole.equals("librarian")) {
-                        if (ManageUsers.userRoleForUpdate == 1) {
-                            JOptionPane.showMessageDialog(this,
-                                    "You cannot update Administrator Details!",
-                                    "Error!",
-                                    JOptionPane.ERROR_MESSAGE);
-                        } else if (ManageUsers.userRoleForUpdate == 2) {
-                            JOptionPane.showMessageDialog(this,
-                                    "You cannot update Librarian Details!",
-                                    "Error!",
-                                    JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            //Update the User's Details
-                            updateUser(userID, column, data);
-                        }
-                    } else if (userRole.equals("user")) {
-                        JOptionPane.showMessageDialog(this,
-                                "You shouldn't be here!",
-                                "Error!",
-                                JOptionPane.ERROR_MESSAGE);
-                        System.exit(0);
-                    } else if (userRole.equals("invalid")) {
-                        JOptionPane.showMessageDialog(this,
-                                "You shouldn't be here!",
-                                "Error!",
-                                JOptionPane.ERROR_MESSAGE);
-                        System.exit(0);
-                    } else {
-                        //Update the User's Details
-                        updateUser(userID, column, data);
-                    }
+                    // If the user exists, pdate the User's Details
+                    updateUser(userID, column, data);
                 } else {
                     JOptionPane.showMessageDialog(this,
                             "Please enter a valid User ID!",
@@ -628,29 +590,29 @@ public class ManageUsers extends javax.swing.JFrame {
                 // verify the role of the logged in user
                 String userRole = queryObject.validateUserRole();
 
-                if (userRole.equals("librarian")) {
+                if (userRole.equals("administrator")) {
                     if (column.equals("UserID") && Integer.parseInt(value) > 0) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUser(Integer.parseInt(value));
-                        ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
+                        ManageUsers_Admin.userRoleForUpdate = SQLQueries.userRoleForUpdate;
                         checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     } else if (column.equals("PhoneNumber") && !value.trim().isEmpty()) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUserRoleWithPhoneNumber(value);
-                        ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
+                        ManageUsers_Admin.userRoleForUpdate = SQLQueries.userRoleForUpdate;
                         checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     } else if (column.equals("Username") && !value.trim().isEmpty()) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUserRoleWithUsername(value);
-                        ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
+                        ManageUsers_Admin.userRoleForUpdate = SQLQueries.userRoleForUpdate;
                         checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     } else if (column.equals("EmailAddress") && !value.trim().isEmpty()) {
                         //Check the user's validity and check the user's role
                         String statusOfUserToBeDeleted = queryObject.validateUserRoleWithEmailAddress(value);
-                        ManageUsers.userRoleForUpdate = SQLQueries.userRoleForUpdate;
+                        ManageUsers_Admin.userRoleForUpdate = SQLQueries.userRoleForUpdate;
                         checkUserStatusBeforeDeleting(statusOfUserToBeDeleted,
                                 column, value);
                     }
@@ -738,7 +700,7 @@ public class ManageUsers extends javax.swing.JFrame {
 
         // Executing the required method within the SQLQueries class
         // and saving it to the ResultSet object
-        tableContents = sqlqueriesObject.getAllUsers();
+        tableContents = sqlqueriesObject.getAllUsersAndOfficers();
 
         // Setting up the search functionality
         sorter = new TableRowSorter<>(DbUtils.resultSetToTableModel(tableContents));
@@ -758,7 +720,7 @@ public class ManageUsers extends javax.swing.JFrame {
     private void btnRefreshTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTableActionPerformed
         // Executing the method within the SQLQueries class to populate the
         // table with the current contents and saving it to the ResultSet object
-        ResultSet newContents = sqlqueriesObject.getAllUsers();
+        ResultSet newContents = sqlqueriesObject.getAllUsersAndOfficers();
 
         // Populating the Java table object with the values in the 
         // saved ResultSet object
@@ -779,23 +741,32 @@ public class ManageUsers extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageUsers_Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageUsers_Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageUsers_Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageUsers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageUsers_Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageUsers().setVisible(true);
+                new ManageUsers_Admin().setVisible(true);
             }
         });
     }
