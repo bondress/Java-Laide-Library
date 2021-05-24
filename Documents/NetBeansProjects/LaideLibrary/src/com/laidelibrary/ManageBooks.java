@@ -182,7 +182,7 @@ public class ManageBooks extends javax.swing.JFrame {
 
         cbGenre.setFont(new java.awt.Font("Cambria", 0, 12)); // NOI18N
         cbGenre.setForeground(new java.awt.Color(56, 72, 96));
-        cbGenre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Christian", "Fiction", "Fantasy", "Science Fiction", "Dystopian", "Action & Adventure", "Mystery", "Horror", "Thriller & Suspense", "Historical Fiction", "Romance", "Women''s Fiction", "Contemporary Fiction", "Literary Fiction", "Magical Realism", "Graphic Novel", "Short Story", "Young Adult", "New Adult", "Children''s", "Nonfiction", "Memoir & Autobiography", "Biography", "Food & Drink", "Art & Photography", "Self-help", "History", "Travel", "True Crime", "Humour", "Essay", "Guide / How-to", "Religion & Spirituality", "Humanities & Social Sciences", "Parenting & Families", "Science & Technology", "Other" }));
+        cbGenre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Christian", "Fiction", "Fantasy", "Science Fiction", "Dystopian", "Action & Adventure", "Mystery", "Horror", "Thriller & Suspense", "Historical Fiction", "Romance", "Women's Fiction", "Contemporary Fiction", "Literary Fiction", "Magical Realism", "Graphic Novel", "Short Story", "Young Adult", "New Adult", "Children's", "Nonfiction", "Memoir & Autobiography", "Biography", "Food & Drink", "Art & Photography", "Self-help", "History", "Travel", "True Crime", "Humour", "Essay", "Guide / How-to", "Religion & Spirituality", "Humanities & Social Sciences", "Parenting & Families", "Science & Technology", "Other" }));
         cbGenre.setEnabled(false);
 
         lblBookId.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N

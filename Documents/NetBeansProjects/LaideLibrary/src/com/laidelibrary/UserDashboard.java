@@ -7,6 +7,7 @@ package com.laidelibrary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
@@ -36,10 +37,10 @@ public class UserDashboard extends javax.swing.JFrame {
      */
     public UserDashboard(String username) {
         initComponents();
-        
+
         //Centralise the User Dashboard
         this.setLocationRelativeTo(null);
-        
+
         //Disable resizing
         this.setResizable(false);
 
